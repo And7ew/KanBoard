@@ -1,0 +1,16 @@
+{
+  "description": "all modelled properties of a board",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "isNotEmpty": true,
+      "description": "name of the board"
+    },
+    "ownerId": {
+      "type": "string",
+      "description": "id of the user who owns the board"
+    }
+  },
+  "required": ["name", "ownerId"]
+}

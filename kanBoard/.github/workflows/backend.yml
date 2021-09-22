@@ -1,0 +1,90 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    env:
+      JWT_SECRET: my-public-secret
+    defaults:
+      run:
+        working-directory: ./kanbananza-backend
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install dependencies
+        run: npm i
+      - name: Run unit tests
+        run: npm run test:unit
+
+  acceptance-test:
+    runs-on: ubuntu-latest
+    env:
+      JWT_SECRET: my-public-secret
+    defaults:
+      run:
+        working-directory: ./kanbananza-backend
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install dependencies
+        run: npm i
+      - name: Run acceptance tests
+        run: npm run test:acceptance
+
+  code-quality:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./kanbananza-backend
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install dependencies
+        run: npm i
+      - name: Lint OpenAPI spec
+        run: npm run lint:spec
+      - name: Lint source code
+        if: ${{ always() }} # run all checks
+        run: npm run lint:check -- --quiet # report errors only
+      - name: Check formatting of source code
+        if: ${{ always() }} # run all checks
+        run: npm run format:check
+
+  validate-spec:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./kanbananza-backend
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install dependency
+        run: npm install ibm-openapi-validator --save-dev
+      - name: Validate OpenAPI spec
+        run: npm run validate:spec
+

@@ -1,0 +1,29 @@
+{
+  "description": "all modelled properties of a board",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "isNotEmpty": true,
+      "description": "name of the card"
+    },
+    "columnId": {
+      "type": "string",
+      "description": "id of the column of the card"
+    },
+    "order": {
+      "type": "integer",
+      "description": "order of the card"
+    },
+    "description": {
+      "type": "string",
+      "isNotEmpty": true,
+      "description": "description of the card"
+    },
+    "priority": {
+      "type": "string",
+      "description": "priority of the card"
+    }
+  },
+  "required": ["name", "columnId"]
+}
